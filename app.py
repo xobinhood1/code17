@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template,request
 from werkzeug import secure_filename
 app = Flask(__name__)
 
@@ -8,11 +8,13 @@ def hello_world():
 
 @app.route('/submit',methods =['POST'])
 def disp():
-	nam=request.form['name']
+
+	nam=request.form["name"]
 	f = request.files['file']
+	f.save(secure_filename(f.filename))
+	print(nam)
 	lis={nam,f.filename}
-    f.save(secure_filename(f.filename))
-    return render_template('show.html',l=lis)
+	return render_template("page2.html",l=lis)
 
 if __name__ == '__main__':
-   app.run()
+   app.run(debug=True)
